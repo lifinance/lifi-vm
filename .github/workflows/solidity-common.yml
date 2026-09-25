@@ -1,0 +1,57 @@
+name: Foundry Common CI Setup
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: Working directory for the Foundry project
+        required: true
+        type: string
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    # Pinned, not `stable`. `stable` floats: Foundry 1.8.1 (released 2026-08-28) broke the
+    # halmos-explode job in ci-solidity.yml with `Unsupported cheat code: deployCode(string)`
+    # on source that had not changed. An audit needs the evidence in this repo to be
+    # reproducible, so both jobs pin the same known-good toolchain. Bump deliberately.
+    - name: Set up Foundry
+      uses: foundry-rs/foundry-toolchain@v1
+      with:
+        version: v1.7.1
+
+    - name: Cache Foundry artifacts
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.foundry
+          ${{ inputs.working-directory }}/out
+          ${{ inputs.working-directory }}/cache
+        key: ${{ runner.os }}-foundry-${{ github.ref }}-${{ hashFiles('**/foundry.toml', '**/.gitmodules') }}
+
+    - name: Sync submodules with .gitmodules
+      working-directory: ${{ inputs.working-directory }}
+      run: git submodule sync
+
+    - name: Install dependencies (via forge install)
+      working-directory: ${{ inputs.working-directory }}
+      run: forge install
+
+    - name: Format check
+      working-directory: ${{ inputs.working-directory }}
+      run: forge fmt --check
+
+    - name: Run tests
+      working-directory: ${{ inputs.working-directory }}
+      run: forge test -vvvv
+
+    - name: Build contracts
+      working-directory: ${{ inputs.working-directory }}
+      run: forge build
+

@@ -1,0 +1,15 @@
+forge-std/=lib/forge-std/src/
+@chimera/=lib/setup-helpers/lib/chimera/src/
+@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
+chimera/=lib/chimera/src/
+ds-test/=lib/chimera/lib/forge-std/lib/ds-test/src/
+erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/
+halmos-cheatcodes/=lib/halmos-cheatcodes/src/
+openzeppelin-contracts/=lib/openzeppelin-contracts/
+setup-helpers/=lib/setup-helpers/src/
+solady/=lib/solady/src/
+solady-test/=lib/solady/test
+@recon/=lib/setup-helpers/src/
+create3-factory/=lib/create3-factory/
+createx-forge/=lib/createx-forge/
+solmate/=lib/create3-factory/lib/solmate/src/

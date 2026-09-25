@@ -1,0 +1,35 @@
+{
+  "chains": [
+    {
+      "name": "sepolia",
+      "chainId": 11155111,
+      "verifier": "etherscan",
+      "rpc": "https://ethereum-sepolia-rpc.publicnode.com"
+    },
+    {
+      "name": "base-sepolia",
+      "chainId": 84532,
+      "verifier": "etherscan",
+      "rpc": "https://sepolia.base.org"
+    },
+    {
+      "name": "arb-sepolia",
+      "chainId": 421614,
+      "verifier": "etherscan",
+      "rpc": "https://sepolia-rollup.arbitrum.io/rpc"
+    },
+    {
+      "name": "op-sepolia",
+      "chainId": 11155420,
+      "verifier": "etherscan",
+      "rpc": "https://sepolia.optimism.io"
+    },
+    {
+      "name": "arc-testnet",
+      "chainId": 5042002,
+      "verifierUrl": "https://explorer.testnet.arc.io/api/",
+      "rpc": "https://rpc.testnet.arc.network",
+      "verifier": "blockscout"
+    }
+  ]
+}

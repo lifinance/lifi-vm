@@ -1,0 +1,17 @@
+{
+  "enabledPlugins": {
+    "building-secure-contracts@trailofbits": true,
+    "audit-context-building@trailofbits": true,
+    "property-based-testing@trailofbits": true,
+    "mutation-testing@trailofbits": true,
+    "entry-point-analyzer@trailofbits": true
+  },
+  "extraKnownMarketplaces": {
+    "trailofbits": {
+      "source": {
+        "source": "github",
+        "repo": "trailofbits/skills"
+      }
+    }
+  }
+}

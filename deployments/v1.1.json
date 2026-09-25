@@ -1,0 +1,34 @@
+{
+  "version": "v1.1",
+  "commit": "7cec1004315247968841eb837302021fa9ccb2b5",
+  "deployer": "0xC0dEbABe740e30ca00F648625e8734BB7372c9D3",
+  "contracts": [
+    {
+      "name": "VirtualMachine",
+      "address": "0x0f8a1ED606A7e10Ce5bF593d0306D98eC6F91b5C",
+      "codehash": "0x5ea5e24413a3cfe880b5ce4a9cc2dfe61e2e6165c083dee8c377f1db2e67e9db"
+    },
+    {
+      "name": "ProxyFactory",
+      "address": "0x91157645e4e9AD252f5902C96e62036420076E96",
+      "codehash": "0x8d0b9e768f967ab7b355170fe3041c94c94a9e783ac43c9b9f2da16ee55b36eb"
+    },
+    {
+      "name": "InvariantChecker",
+      "address": "0xe17006F4DfE8Aa2bf80589E497ad98D470f66fef",
+      "codehash": "0xb7dfd52619ae63c19bbd57ea565ef56e3ecd6ec98084a525c3d673091f64680a"
+    },
+    {
+      "name": "ArithmeticProcessor",
+      "address": "0x25407266A1229c83d03ececfff8eD7d92754b285",
+      "codehash": "0xbaab0832d81edf5ae0786943947af1b5a27bdbfe9eacfa088df2a1e4871a61a5"
+    }
+  ],
+  "libraries": [
+    {
+      "name": "BlueprintEncoder",
+      "address": "0x5378d744E3a57368177ec3A3fF46FdE90B773782",
+      "codehash": "0x3dc08a3d1237522e52becbe6ef9003c22e89dc82002cbd4c80ae4bf34562699c"
+    }
+  ]
+}

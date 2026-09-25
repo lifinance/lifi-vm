@@ -1,0 +1,28 @@
+# Compiler files
+cache/
+out/
+cache-fuzz/
+out-fuzz/
+
+# Local experiment area. Never part of a reviewed change or an audit scope.
+scratch/
+*-kompiled
+
+# Ignores development broadcast logs
+!/broadcast
+/broadcast
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+# Dotenv file
+.env
+
+.DS_Store
+
+**/.claude/settings.local.json
+
+# Coverage files
+crytic-export
+echidna
+medusa
+.DS_Store

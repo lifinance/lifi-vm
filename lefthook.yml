@@ -1,0 +1,5 @@
+pre-commit:
+  commands:
+    forge-fmt:
+      glob: "*.sol"
+      run: forge fmt

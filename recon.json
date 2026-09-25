@@ -1,0 +1,17 @@
+{
+  "out/VirtualMachine.sol/VirtualMachine.json": {
+    "functions": [
+      {
+        "signature": "runVM(tuple[],tuple)",
+        "actor": "actor",
+        "mode": "normal"
+      },
+      {
+        "signature": "runWithState(tuple[],tuple)",
+        "actor": "actor",
+        "mode": "normal"
+      }
+    ],
+    "separated": true
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "abiEncode": "39468",
+  "asAddress": "150",
+  "call": "32277",
+  "calldataBuild": "39440",
+  "calldataSurgery": "35129",
+  "depositApproved": "58785",
+  "explodeDynamicMax": "99198",
+  "explodeStatic": "30699",
+  "logDynamic": "30987",
+  "logStatic1": "27365",
+  "logStatic2": "28764",
+  "logStatic3": "30173",
+  "logStatic4": "31593",
+  "logStatic5": "33031",
+  "nativeBalance": "29930",
+  "remainingGas": "26015",
+  "return": "26330",
+  "staticcall": "32277",
+  "valuecall": "60693"
+}

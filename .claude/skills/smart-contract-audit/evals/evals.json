@@ -1,0 +1,138 @@
+{
+  "skill_name": "smart-contract-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Audit this smart contract for all security vulnerabilities. File: .claude/skills/smart-contract-audit/evals/files/ReentrantVault.sol",
+      "expected_output": "Complete audit report identifying: reentrancy in withdraw(), missing access control on setOwner(), division-by-zero in distributeRewards() when totalDeposits==0, reward accounting bug in deposit(). Each Critical/High finding includes PoC attack code and a code fix snippet.",
+      "files": ["evals/files/ReentrantVault.sol"],
+      "assertions": [
+        "Finds reentrancy in withdraw(): ETH sent before balance updated",
+        "Finds missing access control on setOwner(): any address can become owner and drain funds",
+        "Finds division-by-zero in distributeRewards() when totalDeposits is zero",
+        "Finds reward accounting bug in deposit(): rewardDebt overwritten, erasing unclaimed pending rewards",
+        "Classifies reentrancy or setOwner access control bug as Critical or High",
+        "Provides a Proof of Concept (attack contract sketch or numbered attack steps) for at least one Critical/High finding",
+        "Provides a corrected code snippet (fix) for at least one finding",
+        "Anchors findings to checklist item IDs (SOL-XX-YY-N format)",
+        "Report includes Scope, Findings, and Recommendations or Acknowledged non-issues sections"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Security audit this lending pool contract. File: .claude/skills/smart-contract-audit/evals/files/LendingPool.sol",
+      "expected_output": "Complete audit report identifying: free liquidation bug (liquidate() zeroes debt without requiring repayment), oracle staleness (latestAnswer() no roundId/timestamp check), negative oracle price cast (int256 to uint256 wraps), decimal mismatch in _healthy() (collateral and debt amounts not normalized). Each High/Critical finding includes PoC and code fix.",
+      "files": ["evals/files/LendingPool.sol"],
+      "assertions": [
+        "Finds free liquidation bug: liquidate() seizes collateral and zeroes debtBalance without liquidator repaying debt",
+        "Finds oracle staleness: latestAnswer() does not check updatedAt or roundId",
+        "Finds negative oracle price: int256 return value cast to uint256 without negative guard",
+        "Finds decimal mismatch: _healthy() compares cValue and dValue without normalizing token decimals",
+        "Classifies free liquidation as Critical or High severity",
+        "Classifies at least one oracle issue as High severity",
+        "Provides PoC for the free liquidation bug (attack steps or contract)",
+        "Recommends latestRoundData() with staleness check as the oracle fix",
+        "Provides a corrected code snippet for oracle or decimal fix"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Is this contract safe? .claude/skills/smart-contract-audit/evals/files/ReentrantVault.sol",
+      "expected_output": "Even with terse prompt, auditor scopes immediately and surfaces at least reentrancy and setOwner access control bugs without asking clarifying questions first.",
+      "files": ["evals/files/ReentrantVault.sol"],
+      "assertions": [
+        "Does NOT respond with 5 or more clarifying questions before starting the audit",
+        "Begins scoping and checklist walk within the first response",
+        "Finds reentrancy in withdraw() despite terse prompt",
+        "Finds missing access control on setOwner() despite terse prompt",
+        "Provides severity classification for each finding",
+        "Report is structured with at least a Findings section, not just free-form prose"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Audit this smart contract for all security vulnerabilities. File: .claude/skills/smart-contract-audit/evals/files/SigReplay.sol",
+      "expected_output": "Complete audit report identifying: EIP-712 domain separator missing chainId (cross-chain replay), no nonce tracking (same-chain replay of same voucher), ecrecover does not validate v or reject malleable s (signature malleability), no zero-address check on recovered signer. Each Critical/High includes PoC and fix.",
+      "files": ["evals/files/SigReplay.sol"],
+      "assertions": [
+        "Finds EIP-712 domain separator missing chainId: enables cross-chain replay",
+        "Finds no nonce or used-voucher tracking: same signature can be redeemed repeatedly",
+        "Finds signature malleability: ecrecover accepts unchecked v and high-s values",
+        "Finds missing zero-address guard on recovered signer (ecrecover returns address(0) on failure)",
+        "Classifies replay (chainId OR nonce) bug as Critical or High",
+        "Provides a Proof of Concept (attack steps or contract) for at least one Critical/High finding",
+        "Provides a corrected code snippet (fix) for at least one finding",
+        "Anchors findings to checklist item IDs (SOL-XX-YY-N format)",
+        "Report includes Scope, Findings, and Recommendations sections"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Audit this smart contract for all security vulnerabilities. File: .claude/skills/smart-contract-audit/evals/files/ERC4626Inflation.sol",
+      "expected_output": "Complete audit report identifying: first-depositor inflation / donation share-price manipulation, totalAssets() derived from balanceOf(this) is donatable, previewWithdraw rounds same direction as previewDeposit (should round up for withdraw), missing maxDeposit or dead-shares mitigation. Each High/Critical includes PoC and fix.",
+      "files": ["evals/files/ERC4626Inflation.sol"],
+      "assertions": [
+        "Finds first-depositor inflation attack: attacker mints 1 share then donates assets to inflate share price, next depositor gets 0 shares (rounds down)",
+        "Finds totalAssets() uses asset.balanceOf(this), making share price manipulable via direct token transfer (donation)",
+        "Finds previewWithdraw / share accounting rounds in wrong direction (should round up in favour of vault for withdraw, down for deposit)",
+        "Finds missing virtual-shares / dead-shares mitigation or maxDeposit cap",
+        "Classifies inflation attack as Critical or High severity",
+        "Provides a Proof of Concept (numeric walkthrough or attack contract) for the inflation attack",
+        "Provides a corrected code snippet (virtual shares, dead shares, or rounding fix)",
+        "Anchors findings to checklist item IDs (SOL-XX-YY-N format)",
+        "Report includes Scope, Findings, and Recommendations sections"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Audit this smart contract for all security vulnerabilities. File: .claude/skills/smart-contract-audit/evals/files/MerkleAirdrop.sol",
+      "expected_output": "Complete audit report identifying: no claimed-tracking (unlimited replay of same proof drains token balance), leaf omits amount so recipient can claim arbitrary amount, admin can rotate root at any time (no finalization / can redirect funds), MerkleProof verify vulnerable to second-preimage if leaf format collides with internal nodes.",
+      "files": ["evals/files/MerkleAirdrop.sol"],
+      "assertions": [
+        "Finds no claim-tracking bitmap/mapping: same proof can be replayed to drain the airdrop",
+        "Finds leaf does NOT commit to amount: any valid-account proof lets caller pass any amount and drain tokens",
+        "Finds admin setRoot is unrestricted after deployment: admin can rotate root mid-airdrop to redirect funds",
+        "Finds MerkleProof leaf format vulnerable to second-preimage (leaves not length-tagged / domain-separated)",
+        "Classifies missing claim-tracking or amount-in-leaf bug as Critical",
+        "Provides a Proof of Concept for at least one Critical/High finding",
+        "Provides a corrected code snippet (bitmap, keccak256(account, amount) leaf, or finalized-root pattern)",
+        "Anchors findings to checklist item IDs (SOL-XX-YY-N format)",
+        "Report includes Scope, Findings, and Recommendations sections"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Audit this smart contract for all security vulnerabilities. File: .claude/skills/smart-contract-audit/evals/files/Bridge.sol",
+      "expected_output": "Complete audit report identifying: _lzReceive ignores _srcChainId (wrong-chain messages accepted), no per-source nonce / replay protection, mint() is public so anyone can mint tokens independent of bridge, trustedRemote comparison only covers single path (no per-chain mapping).",
+      "files": ["evals/files/Bridge.sol"],
+      "assertions": [
+        "Finds _lzReceive does not validate _srcChainId (accepts messages from any source chain)",
+        "Finds mint() is public — anyone can mint tokens without going through _lzReceive",
+        "Finds no replay / nonce tracking on inbound messages",
+        "Finds trustedRemote is a single bytes blob rather than per-source-chain mapping (cannot safely support multiple sources)",
+        "Classifies public mint() OR missing srcChainId check as Critical",
+        "Provides a Proof of Concept (attack steps) for the public-mint or wrong-chain issue",
+        "Provides a corrected code snippet (make mint internal, add chainId+nonce mapping)",
+        "Anchors findings to checklist item IDs (SOL-XX-YY-N format)",
+        "Report includes Scope, Findings, and Recommendations sections"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Audit this smart contract for all security vulnerabilities. File: .claude/skills/smart-contract-audit/evals/files/GovTimelock.sol",
+      "expected_output": "Complete audit report identifying: execute() bypasses delay when msg.sender == admin (admin executes arbitrary calls instantly), cancel() has no access control (anyone cancels any queued action), queue id uses abi.encodePacked (hash collisions across variable-length data), no guardian / veto role.",
+      "files": ["evals/files/GovTimelock.sol"],
+      "assertions": [
+        "Finds execute() skips delay check when msg.sender == admin: defeats the purpose of the timelock",
+        "Finds cancel() has no access control: any address can cancel any queued action (griefing / blocking governance)",
+        "Finds queue id uses abi.encodePacked(target, value, data): hash collision possible because data is dynamic",
+        "Finds no guardian / veto role or missing separation-of-powers",
+        "Classifies admin-bypass OR open cancel() as Critical or High",
+        "Provides a Proof of Concept for at least one Critical/High finding",
+        "Provides a corrected code snippet (abi.encode, access-controlled cancel, remove admin fast-path)",
+        "Anchors findings to checklist item IDs (SOL-XX-YY-N format)",
+        "Report includes Scope, Findings, and Recommendations sections"
+      ]
+    }
+  ]
+}

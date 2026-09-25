@@ -1,0 +1,19 @@
+testMode: assertion
+prefix: echidna_
+coverage: true
+corpusDir: echidna
+balanceAddr: 300000000000000000000
+balanceContract: 300000000000000000000
+filterFunctions: []
+deployer: "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496"
+contractAddr: "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496"
+shrinkLimit: 100000
+# Artifacts are built by script/fuzz.sh under the isolated `fuzz` Foundry profile, so
+# crytic-compile must not rebuild (--foundry-ignore-compile). With that flag crytic-compile
+# stops consulting `forge config` and defaults to `out/`, so the directory is named
+# explicitly and must stay in sync with `out` in [profile.fuzz] of foundry.toml —
+# script/fuzz.sh asserts they agree. See the comment block in that script.
+cryticArgs: ["--compile-libraries=(BlueprintEncoder,0xf01)","--foundry-compile-all","--foundry-ignore-compile","--foundry-out-directory","out-fuzz"]
+deployContracts: [
+  ["0xf01", "BlueprintEncoder"]
+]

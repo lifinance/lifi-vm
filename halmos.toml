@@ -1,0 +1,5 @@
+[global]
+early-exit = false
+loop = 100
+array-lengths = "toks={3}"
+function = "check"

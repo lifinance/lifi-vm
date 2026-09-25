@@ -1,0 +1,54 @@
+name: Solidity CI
+
+permissions:
+  contents: read
+  pull-requests: read
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test-vm:
+    uses: ./.github/workflows/solidity-common.yml
+    with:
+      working-directory: .
+
+  # Runs ONLY this PR's EXPLODE Halmos suite. `check_*` is not a Forge test prefix, so
+  # `forge test` walks past every property in test/halmos/; this job executes them via Halmos.
+  # Scoped deliberately to ExplodeHalmosTest so the runtime stays a few seconds. Follow-up:
+  # broaden to the full property suite with SurgeryOPSHalmosTest (~23 min) moved to a nightly.
+  halmos-explode:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    # Pinned deliberately — see the note in solidity-common.yml. Halmos 0.3.3 is the newest
+    # release and cannot execute artifacts from Foundry 1.8.1, which reports the test
+    # constructor as `Unsupported cheat code: deployCode(string)` and fails all 13 properties.
+    - name: Set up Foundry
+      uses: foundry-rs/foundry-toolchain@v1
+      with:
+        version: v1.7.1
+
+    - name: Sync submodules with .gitmodules
+      run: git submodule sync
+
+    - name: Install dependencies (via forge install)
+      run: forge install
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Halmos
+      run: pip install halmos==0.3.3
+
+    - name: Run EXPLODE Halmos properties
+      working-directory: .
+      run: halmos --contract ExplodeHalmosTest --config halmos.toml

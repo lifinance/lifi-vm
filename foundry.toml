@@ -1,0 +1,34 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc_version= "0.8.30"
+optimizer = true
+optimizer_runs = 10000
+via_ir = true
+# Raised from 25M: deploying the Recon harness (test/recon/CryticTester.sol, ~45KB of runtime code
+# across every target contract) costs 200 gas per code byte plus Setup, and it was already within
+# ~1M gas of the old ceiling on main. Adding ExplodeTargets tipped it over, surfacing as
+# `[FAIL: EvmError: OutOfGas] constructor()` with no trace. 30M is Ethereum's long-standing block
+# gas limit, so benchmark figures still describe gas that fits in a real block.
+gas_limit = 30000000
+
+# Isolated artifact directory for the Medusa/Echidna harness, used by script/fuzz.sh.
+# crytic-compile hard-fails on any build-info file that carries no solc `output` (see
+# script/fuzz.sh), and `forge test`/`forge build` write exactly such stubs into `out/`.
+# Building the fuzz artifacts under a separate profile means a concurrent forge run in
+# the default profile cannot drop a stub into the directory the fuzzers are reading.
+# Every compiler setting is inherited from `profile.default`, so the bytecode is identical.
+[profile.fuzz]
+out = "out-fuzz"
+cache_path = "cache-fuzz"
+
+[fmt] # See https://book.getfoundry.sh/reference/config/formatter
+int_types = "long"
+line_length = 120
+bracket_spacing = true
+multiline_func_header = "all"
+number_underscore = "thousands"
+quote_style = "single"
+ignore = ['./script/**/*']
+
