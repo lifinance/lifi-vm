@@ -184,7 +184,7 @@ stream: 0x80 0x81 0x00 0x82 0x02 0x83 0x03   rpnLen: 7
 
 ### Prerequisites
 
-- [Foundry](https://book.getfoundry.sh/getting-started/installation). CI pins Foundry `v1.7.1`.
+- [Foundry](https://book.getfoundry.sh/getting-started/installation). CI pins Foundry `v1.9.0`.
 - `git`, to fetch the submodules under `lib/`.
 - `jq`, for `script/fuzz.sh` and `deploy-chains.sh`.
 - Optional: [Halmos](https://github.com/a16z/halmos) (CI uses `0.3.3` with Python 3.12), [Medusa](https://github.com/crytic/medusa) or [Echidna](https://github.com/crytic/echidna).
@@ -220,7 +220,7 @@ halmos --config halmos.toml                                  # every property
 halmos --contract ExplodeHalmosTest --config halmos.toml      # one contract, as in CI
 ```
 
-Halmos `0.3.3` cannot execute artifacts built by Foundry `1.8.1`. Use Foundry `v1.7.1`, as CI does.
+Halmos `0.3.3` cannot execute artifacts built by Foundry `1.8.1` or `1.9.0`. Use Foundry `v1.7.1`, as the CI Halmos job does.
 
 ### Fuzzing (Medusa and Echidna)
 
@@ -238,8 +238,8 @@ script/fuzz.sh echidna
 
 `.github/workflows/ci-solidity.yml` runs on pushes to `main` and on pull requests:
 
-- `test-vm`: `forge fmt --check`, `forge test -vvvv` and `forge build` with Foundry `v1.7.1`.
-- `halmos-explode`: `halmos --contract ExplodeHalmosTest --config halmos.toml` with Halmos `0.3.3`.
+- `test-vm`: `forge fmt --check`, `forge test -vvvv` and `forge build` with Foundry `v1.9.0`.
+- `halmos-explode`: `halmos --contract ExplodeHalmosTest --config halmos.toml` with Halmos `0.3.3` and Foundry `v1.7.1` (Halmos `0.3.3` fails under newer Foundry).
 
 ## Deployment
 

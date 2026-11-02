@@ -11,6 +11,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      # Single source for the install and the cache key, so a cache saved under an
+      # older toolchain can never restore stale binaries over this one.
+      FOUNDRY_VERSION: v1.9.0
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -20,11 +24,12 @@ jobs:
     # Pinned, not `stable`. `stable` floats: Foundry 1.8.1 (released 2026-08-28) broke the
     # halmos-explode job in ci-solidity.yml with `Unsupported cheat code: deployCode(string)`
     # on source that had not changed. An audit needs the evidence in this repo to be
-    # reproducible, so both jobs pin the same known-good toolchain. Bump deliberately.
+    # reproducible, so this job pins a known-good toolchain. Bump deliberately. The
+    # halmos-explode job stays on v1.7.1: Halmos 0.3.3 also fails under Foundry 1.9.0.
     - name: Set up Foundry
       uses: foundry-rs/foundry-toolchain@v1
       with:
-        version: v1.7.1
+        version: ${{ env.FOUNDRY_VERSION }}
 
     - name: Cache Foundry artifacts
       uses: actions/cache@v4
@@ -33,7 +38,7 @@ jobs:
           ~/.foundry
           ${{ inputs.working-directory }}/out
           ${{ inputs.working-directory }}/cache
-        key: ${{ runner.os }}-foundry-${{ github.ref }}-${{ hashFiles('**/foundry.toml', '**/.gitmodules') }}
+        key: ${{ runner.os }}-foundry-${{ env.FOUNDRY_VERSION }}-${{ github.ref }}-${{ hashFiles('**/foundry.toml', '**/.gitmodules') }}
 
     - name: Sync submodules with .gitmodules
       working-directory: ${{ inputs.working-directory }}
