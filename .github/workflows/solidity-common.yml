@@ -20,11 +20,12 @@ jobs:
     # Pinned, not `stable`. `stable` floats: Foundry 1.8.1 (released 2026-08-28) broke the
     # halmos-explode job in ci-solidity.yml with `Unsupported cheat code: deployCode(string)`
     # on source that had not changed. An audit needs the evidence in this repo to be
-    # reproducible, so both jobs pin the same known-good toolchain. Bump deliberately.
+    # reproducible, so this job pins a known-good toolchain. Bump deliberately. The
+    # halmos-explode job stays on v1.7.1: Halmos 0.3.3 also fails under Foundry 1.9.0.
     - name: Set up Foundry
       uses: foundry-rs/foundry-toolchain@v1
       with:
-        version: v1.7.1
+        version: v1.9.0
 
     - name: Cache Foundry artifacts
       uses: actions/cache@v4
