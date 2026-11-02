@@ -11,6 +11,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      # Single source for the install and the cache key, so a cache saved under an
+      # older toolchain can never restore stale binaries over this one.
+      FOUNDRY_VERSION: v1.9.0
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -25,7 +29,7 @@ jobs:
     - name: Set up Foundry
       uses: foundry-rs/foundry-toolchain@v1
       with:
-        version: v1.9.0
+        version: ${{ env.FOUNDRY_VERSION }}
 
     - name: Cache Foundry artifacts
       uses: actions/cache@v4
@@ -34,7 +38,7 @@ jobs:
           ~/.foundry
           ${{ inputs.working-directory }}/out
           ${{ inputs.working-directory }}/cache
-        key: ${{ runner.os }}-foundry-${{ github.ref }}-${{ hashFiles('**/foundry.toml', '**/.gitmodules') }}
+        key: ${{ runner.os }}-foundry-${{ env.FOUNDRY_VERSION }}-${{ github.ref }}-${{ hashFiles('**/foundry.toml', '**/.gitmodules') }}
 
     - name: Sync submodules with .gitmodules
       working-directory: ${{ inputs.working-directory }}
