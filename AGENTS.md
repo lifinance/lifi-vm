@@ -42,7 +42,7 @@ CI (`.github/workflows/ci-solidity.yml`) runs `forge fmt --check`, `forge test -
 
 ## Config and environment
 
-[.env.example](.env.example) lists the environment variables the deploy scripts and Forge scripts read. `deploy-chains.sh` also reads `ETH_PASSWORD`, a path to the keystore password file; set it in the shell for one run, not in `.env`, because forge reads it for every command. Deployments sign with a Foundry keystore (`cast wallet import`), never with a key in a file or argument. Compiler and test profiles live in `foundry.toml`, Halmos settings in `halmos.toml`, fuzzer settings in `medusa.json` and `echidna.yaml`.
+[.env.example](.env.example) lists the environment variables the deploy scripts and Forge scripts read. Forge loads `.env` itself, but `deploy.sh`, `deploy-chains.sh` and `generate-proxy.sh` do not: export it first with `set -a; source .env; set +a`. `deploy-chains.sh` also reads `ETH_PASSWORD`, a path to the keystore password file; set it in the shell for one run, not in `.env`, because forge reads it for every command. Deployments sign with a Foundry keystore (`cast wallet import`), never with a key in a file or argument. Compiler and test profiles live in `foundry.toml`, Halmos settings in `halmos.toml`, fuzzer settings in `medusa.json` and `echidna.yaml`.
 
 ## Deeper docs
 
