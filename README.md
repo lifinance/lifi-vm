@@ -179,6 +179,8 @@ stream: 0x80 0x81 0x00 0x82 0x02 0x83 0x03   rpnLen: 7
 | `snapshots/` | Gas snapshots written by `test/GasBenchmarks.t.sol`. |
 | `deploy.sh`, `deploy-chains.sh`, `generate-proxy.sh`, `verify.sh`, `setup-tempo-foundry.sh` | Deployment and verification scripts. |
 | `.claude/`, `.agents/` | Claude Code and Codex configuration and skills. |
+| `AGENTS.md` | Repository map and conventions for coding agents. |
+| `.env.example` | Template for the environment variables the deploy scripts and Forge scripts read. |
 
 ## Getting started
 
@@ -276,6 +278,8 @@ Re-runs are idempotent: contracts that are already deployed are adopted, and no 
 | `RPC_<NAME>` | RPC override per chain, for example `RPC_SEPOLIA` or `RPC_ARC_TESTNET`. |
 | `NO_VERIFY=1` | Skip explorer verification. |
 | `UNLOCKED=1` | Rehearse against an anvil fork started with `--auto-impersonate`, sending as the deployer without a key. |
+
+[`.env.example`](.env.example) lists these variables. `deploy-chains.sh` does not load `.env`; export it first with `set -a; source .env; set +a`. Keep `ETH_PASSWORD` out of `.env` and set it in the shell for one run.
 
 Each `chains.json` entry has `name`, `chainId` and `rpc`, a `verifier` (`etherscan`, `blockscout`, `sourcify` or `none`), a `verifierUrl` for Blockscout, and optional `extraArgs` for `forge script` (for example `["--legacy"]`). The manifest pins the source `commit`, the `deployer`, and the `name`, `address` and `codehash` of each contract and linked library.
 
