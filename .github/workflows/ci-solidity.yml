@@ -28,8 +28,9 @@ jobs:
         submodules: recursive
 
     # Pinned deliberately — see the note in solidity-common.yml. Halmos 0.3.3 is the newest
-    # release and cannot execute artifacts from Foundry 1.8.1, which reports the test
-    # constructor as `Unsupported cheat code: deployCode(string)` and fails all 13 properties.
+    # release and cannot execute artifacts from Foundry 1.8.1 or 1.9.0, which report the test
+    # constructor as `Unsupported cheat code: deployCode(string)` and fail all 13 properties.
+    # This job stays on v1.7.1 while test-vm (solidity-common.yml) runs v1.9.0.
     - name: Set up Foundry
       uses: foundry-rs/foundry-toolchain@v1
       with:

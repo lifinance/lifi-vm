@@ -10,7 +10,7 @@ This directory holds the [Halmos](https://github.com/a16z/halmos) property suite
 
 | Tool | Version | Notes |
 |---|---|---|
-| Foundry | `v1.7.1` | The version CI pins. Halmos 0.3.3 cannot run artifacts built by Foundry 1.8.1 (see [CI](#ci)). |
+| Foundry | `v1.7.1` | The version the Halmos CI job pins. Halmos 0.3.3 cannot run artifacts built by Foundry 1.8.1 or 1.9.0 (see [CI](#ci)). |
 | Halmos | `0.3.3` | Needs Python; CI uses Python 3.12. |
 | Submodules | — | `lib/forge-std` and `lib/halmos-cheatcodes` provide `Test` and `SymTest`. |
 
@@ -58,7 +58,7 @@ halmos --contract ExplodeHalmosTest --config halmos.toml
 
 The job installs Foundry `v1.7.1` and `halmos==0.3.3` on Python 3.12. No other Halmos contract runs in CI, so run the rest locally after changing the code they cover.
 
-Both Solidity workflows pin Foundry `v1.7.1`. Under Foundry 1.8.1, Halmos 0.3.3 rejects the test constructor with `Unsupported cheat code: deployCode(string)` and every property fails. Upgrade the two pins together, and only after the Halmos job passes on the new toolchain.
+The `halmos-explode` job pins Foundry `v1.7.1`; the `test-vm` job pins `v1.9.0`. Under Foundry 1.8.1 and 1.9.0, Halmos 0.3.3 rejects the test constructor with `Unsupported cheat code: deployCode(string)` and every property fails. Move the Halmos job to a newer Foundry only after it passes on that toolchain.
 
 ## Properties
 

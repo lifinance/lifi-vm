@@ -73,7 +73,7 @@ contract SafeTransferTest is SpecTestBase {
         cmds[0] = VmCmd.safeTransfer(address(token), 0, 1);
 
         // Should revert due to insufficient balance (VM wraps the error as TransferFailed)
-        vm.expectRevert('TransferFailed()');
+        vm.expectRevert(bytes4(keccak256('TransferFailed()')));
         run(cmds, s0);
     }
 
