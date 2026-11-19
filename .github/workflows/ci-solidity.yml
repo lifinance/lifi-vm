@@ -31,7 +31,7 @@ jobs:
     # release and cannot execute artifacts from Foundry 1.8.1, which reports the test
     # constructor as `Unsupported cheat code: deployCode(string)` and fails all 13 properties.
     - name: Set up Foundry
-      uses: foundry-rs/foundry-toolchain@v1
+      uses: foundry-rs/foundry-toolchain@908c540300062bd5a7e473851cdb4282204cee09 # v1.9.1
       with:
         version: v1.7.1
 
